@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = '1789836372|4175469-godot-credit-1';
+const CACHE_VERSION = '1789836372|4175469-no-credit-2';
 /** @type {string} */
 const CACHE_PREFIX = 'Spider Solitaire-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
