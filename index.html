@@ -11,7 +11,7 @@ html{width:100%;height:100%;background:#102d24}
 body{width:100%;height:100%;height:100dvh;height:var(--game-height,100dvh);margin:0;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);background:#102d24;color:#fff5db;font-family:system-ui,sans-serif;overflow:hidden;overscroll-behavior:none}
 #canvas{display:block;width:100%;height:100%;outline:none;touch-action:none}
 #status{position:fixed;inset:0 0 auto;height:100%;height:var(--game-height,100dvh);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:max(20px,env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));background:radial-gradient(ellipse at 50% 35%,#285c42,#102d24 80%);text-align:center;z-index:10;overflow:auto}
-.game-icon{width:min(32vw,24dvh,160px);height:min(32vw,24dvh,160px);object-fit:contain;border-radius:22%;box-shadow:0 12px 32px #0003}
+.game-cover{width:min(84vw,640px);height:auto;max-height:42dvh;object-fit:contain;border-radius:12px;box-shadow:0 12px 32px #0003}
 h1{font-family:Georgia,serif;font-size:clamp(26px,6vw,44px);font-weight:400;margin:0}
 #status-progress{appearance:none;width:min(280px,75vw);height:8px;border:0;border-radius:8px;overflow:hidden;background:#ffffff18;accent-color:#e3c58a;flex-shrink:0}
 #status-progress::-webkit-progress-bar{background:#ffffff18;border-radius:8px}
@@ -19,24 +19,24 @@ h1{font-family:Georgia,serif;font-size:clamp(26px,6vw,44px);font-weight:400;marg
 #status-progress::-moz-progress-bar{background:#e3c58a}
 #status-notice{font:16px/1.5 system-ui,sans-serif;max-width:560px;max-height:45dvh;overflow:auto;overflow-wrap:anywhere;color:#ffe1d5}
 .loading{font-size:14px;color:#e3d9c3;margin:0}
-@media(max-height:420px){#status{gap:12px}.game-icon{width:min(20dvh,84px);height:min(20dvh,84px)}h1{font-size:26px}}
+@media(max-height:420px){#status{gap:12px}.game-cover{max-height:34dvh;width:auto;max-width:84vw}h1{font-size:26px}}
 </style>
-<link id="-gd-engine-icon" rel="icon" type="image/png" sizes="512x512" href="index.icon.png?v=solitaire-3f58267fd0885fdb" />
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=solitaire-3f58267fd0885fdb">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=solitaire-3f58267fd0885fdb">
-<link rel="icon" type="image/x-icon" href="favicon.ico?v=solitaire-3f58267fd0885fdb">
-<link rel="apple-touch-icon" sizes="180x180" href="index.apple-touch-icon.png?v=solitaire-3f58267fd0885fdb">
-<link rel="manifest" href="index.manifest.json?v=solitaire-3f58267fd0885fdb">
+<link id="-gd-engine-icon" rel="icon" type="image/png" sizes="512x512" href="index.icon.png?v=solitaire-5fd432ae3bc42648" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=solitaire-5fd432ae3bc42648">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=solitaire-5fd432ae3bc42648">
+<link rel="icon" type="image/x-icon" href="favicon.ico?v=solitaire-5fd432ae3bc42648">
+<link rel="apple-touch-icon" sizes="180x180" href="index.apple-touch-icon.png?v=solitaire-5fd432ae3bc42648">
+<link rel="manifest" href="index.manifest.json?v=solitaire-5fd432ae3bc42648">
 
 </head>
 <body>
 <canvas id="canvas">Your browser does not support the canvas tag.</canvas>
 <noscript>Your browser does not support JavaScript.</noscript>
 <div id="status" role="status" aria-label="Loading game">
-<img class="game-icon" src="index.icon.png" width="160" height="160" alt="">
+<img class="game-cover" src="index.cover.png" width="1024" height="512" alt="Solitaire Collection">
 <h1>Solitaire Collection</h1>
 <progress id="status-progress" aria-label="Game download progress"></progress>
-<p class="loading" id="loading-label">Loadingâ€¦</p>
+<p class="loading" id="loading-label">Loading...</p>
 <div id="status-notice" role="alert"></div>
 </div>
 <script>
@@ -64,7 +64,7 @@ h1{font-family:Georgia,serif;font-size:clamp(26px,6vw,44px);font-weight:400;marg
 </script>
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":50807596,"index.wasm":38294347},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":51661020,"index.wasm":38294347},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
 const GODOT_THREADS_ENABLED = false;
 GODOT_CONFIG.canvasResizePolicy = 0;
 const engine = new Engine(GODOT_CONFIG);
