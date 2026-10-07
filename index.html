@@ -1,122 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
-		<title>Solitaire Collection</title>
-		<style>
-html, body, #canvas {
-	margin: 0;
-	padding: 0;
-	border: 0;
-}
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#102d24">
+<title>Solitaire Collection</title>
+<style>
+*{box-sizing:border-box}
+html{width:100%;height:100%;background:#102d24}
+body{width:100%;height:100%;height:100dvh;height:var(--game-height,100dvh);margin:0;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);background:#102d24;color:#fff5db;font-family:system-ui,sans-serif;overflow:hidden;overscroll-behavior:none}
+#canvas{display:block;width:100%;height:100%;outline:none;touch-action:none}
+#status{position:fixed;inset:0 0 auto;height:100%;height:var(--game-height,100dvh);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:max(20px,env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) max(20px,env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));background:radial-gradient(ellipse at 50% 35%,#285c42,#102d24 80%);text-align:center;z-index:10;overflow:auto}
+.game-icon{width:min(32vw,24dvh,160px);height:min(32vw,24dvh,160px);object-fit:contain;border-radius:22%;box-shadow:0 12px 32px #0003}
+h1{font-family:Georgia,serif;font-size:clamp(26px,6vw,44px);font-weight:400;margin:0}
+#status-progress{appearance:none;width:min(280px,75vw);height:8px;border:0;border-radius:8px;overflow:hidden;background:#ffffff18;accent-color:#e3c58a;flex-shrink:0}
+#status-progress::-webkit-progress-bar{background:#ffffff18;border-radius:8px}
+#status-progress::-webkit-progress-value{background:#e3c58a;border-radius:8px}
+#status-progress::-moz-progress-bar{background:#e3c58a}
+#status-notice{font:16px/1.5 system-ui,sans-serif;max-width:560px;max-height:45dvh;overflow:auto;overflow-wrap:anywhere;color:#ffe1d5}
+.loading{font-size:14px;color:#e3d9c3;margin:0}
+@media(max-height:420px){#status{gap:12px}.game-icon{width:min(20dvh,84px);height:min(20dvh,84px)}h1{font-size:26px}}
+</style>
+<link id="-gd-engine-icon" rel="icon" type="image/png" sizes="512x512" href="index.icon.png?v=solitaire-3f58267fd0885fdb" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=solitaire-3f58267fd0885fdb">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=solitaire-3f58267fd0885fdb">
+<link rel="icon" type="image/x-icon" href="favicon.ico?v=solitaire-3f58267fd0885fdb">
+<link rel="apple-touch-icon" sizes="180x180" href="index.apple-touch-icon.png?v=solitaire-3f58267fd0885fdb">
+<link rel="manifest" href="index.manifest.json?v=solitaire-3f58267fd0885fdb">
 
-body {
-	color: white;
-	background-color: black;
-	overflow: hidden;
-	touch-action: none;
-}
-
-#canvas {
-	display: block;
-}
-
-#canvas:focus {
-	outline: none;
-}
-
-#status, #status-splash, #status-progress {
-	position: absolute;
-	left: 0;
-	right: 0;
-}
-
-#status, #status-splash {
-	top: 0;
-	bottom: 0;
-}
-
-#status {
-	background-color: #242424;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	visibility: hidden;
-}
-
-#status-splash {
-	max-height: 100%;
-	max-width: 100%;
-	margin: auto;
-}
-
-#status-splash.show-image--false {
-	display: none;
-}
-
-#status-splash.fullsize--true {
-	height: 100%;
-	width: 100%;
-	object-fit: contain;
-}
-
-#status-splash.use-filter--false {
-	image-rendering: pixelated;
-}
-
-#status-progress, #status-notice {
-	display: none;
-}
-
-#status-progress {
-	bottom: 10%;
-	width: 50%;
-	margin: 0 auto;
-}
-
-#status-notice {
-	background-color: #5b3943;
-	border-radius: 0.5rem;
-	border: 1px solid #9b3943;
-	color: #e0e0e0;
-	font-family: 'Noto Sans', 'Droid Sans', Arial, sans-serif;
-	line-height: 1.3;
-	margin: 0 2rem;
-	overflow: hidden;
-	padding: 1rem;
-	text-align: center;
-	z-index: 1;
-}
-		</style>
-		<link id="-gd-engine-icon" rel="icon" type="image/png" sizes="512x512" href="index.icon.png?v=solitaire-icons-20261007-8b9b20f105" />
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=solitaire-icons-20261007-8b9b20f105">
-<link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=solitaire-icons-20261007-8b9b20f105">
-<link rel="icon" type="image/x-icon" href="favicon.ico?v=solitaire-icons-20261007-8b9b20f105">
-<link rel="apple-touch-icon" sizes="180x180" href="index.apple-touch-icon.png?v=solitaire-icons-20261007-8b9b20f105">
-<link rel="manifest" href="index.manifest.json?v=solitaire-icons-20261007-8b9b20f105">
-<style>html,body{width:100%;height:100%;margin:0;padding:0;overflow:hidden;background:#0b3d21}#canvas{width:100%!important;height:100%!important;display:block;touch-action:none}</style>
-	</head>
-	<body>
-		<canvas id="canvas">
-			Your browser does not support the canvas tag.
-		</canvas>
-
-		<noscript>
-			Your browser does not support JavaScript.
-		</noscript>
-
-		<div id="status">
-			<img id="status-splash" class="show-image--true fullsize--true use-filter--true" src="index.png" alt="">
-			<progress id="status-progress"></progress>
-			<div id="status-notice"></div>
-		</div>
-
+</head>
+<body>
+<canvas id="canvas">Your browser does not support the canvas tag.</canvas>
+<noscript>Your browser does not support JavaScript.</noscript>
+<div id="status" role="status" aria-label="Loading game">
+<img class="game-icon" src="index.icon.png" width="160" height="160" alt="">
+<h1>Solitaire Collection</h1>
+<progress id="status-progress" aria-label="Game download progress"></progress>
+<p class="loading" id="loading-label">Loadingâ€¦</p>
+<div id="status-notice" role="alert"></div>
+</div>
+<script>
+// Mobile browser bars and rotation can change the visible height without a
+// window resize. The shell owns the canvas CSS size and physical buffer;
+// policy 0 makes Godot observe that buffer without forcing window.innerHeight.
+(function () {
+  function syncViewport() {
+    const height = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    document.documentElement.style.setProperty('--game-height', `${Math.floor(height)}px`);
+    const canvas = document.getElementById('canvas');
+    const scale = window.devicePixelRatio || 1;
+    const width = Math.max(1, Math.floor(canvas.clientWidth * scale));
+    const bufferHeight = Math.max(1, Math.floor(canvas.clientHeight * scale));
+    if (canvas.width !== width) canvas.width = width;
+    if (canvas.height !== bufferHeight) canvas.height = bufferHeight;
+  }
+  new ResizeObserver(syncViewport).observe(document.body);
+  syncViewport();
+  window.addEventListener('resize', syncViewport);
+  window.addEventListener('orientationchange', syncViewport);
+  document.addEventListener('fullscreenchange', syncViewport);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', syncViewport);
+}());
+</script>
 		<script src="index.js"></script>
 		<script>
-const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":50577276,"index.wasm":38294347},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
+const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"emscriptenPoolSize":8,"ensureCrossOriginIsolationHeaders":false,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":50807596,"index.wasm":38294347},"focusCanvas":true,"gdextensionLibs":[],"godotPoolSize":4,"serviceWorker":"index.service.worker.js"};
 const GODOT_THREADS_ENABLED = false;
+GODOT_CONFIG.canvasResizePolicy = 0;
 const engine = new Engine(GODOT_CONFIG);
 
 (function () {
@@ -139,6 +89,7 @@ const engine = new Engine(GODOT_CONFIG);
 		statusOverlay.style.visibility = 'visible';
 		statusProgress.style.display = mode === 'progress' ? 'block' : 'none';
 		statusNotice.style.display = mode === 'notice' ? 'block' : 'none';
+		document.getElementById('loading-label').hidden = mode === 'notice';
 		statusMode = mode;
 	}
 
@@ -214,6 +165,7 @@ const engine = new Engine(GODOT_CONFIG);
 				}
 			},
 		}).then(() => {
+			document.title = 'Solitaire Collection';
 			setStatusMode('hidden');
 		}, displayFailureNotice);
 	}
