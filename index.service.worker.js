@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = 'solitaire-b0cffe299843d75c';
+const CACHE_VERSION = 'solitaire-05892cccf15dea4a';
 /** @type {string} */
 const CACHE_PREFIX = 'Spider Solitaire-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
@@ -14,7 +14,7 @@ const OFFLINE_URL = 'index.offline.html';
 const ENSURE_CROSSORIGIN_ISOLATION_HEADERS = false;
 // Files that will be cached on load.
 /** @type {string[]} */
-const CACHED_FILES = ["index.html","index.js","index.offline.html","index.audio.worklet.js","index.audio.position.worklet.js","index.icon.png?v=solitaire-b0cffe299843d75c","index.144x144.png?v=solitaire-b0cffe299843d75c","index.180x180.png?v=solitaire-b0cffe299843d75c","index.192x192.png?v=solitaire-b0cffe299843d75c","index.512x512.png?v=solitaire-b0cffe299843d75c","index.maskable-512x512.png?v=solitaire-b0cffe299843d75c","index.apple-touch-icon.png?v=solitaire-b0cffe299843d75c","favicon-16x16.png?v=solitaire-b0cffe299843d75c","favicon-32x32.png?v=solitaire-b0cffe299843d75c","favicon-48x48.png?v=solitaire-b0cffe299843d75c","favicon.ico?v=solitaire-b0cffe299843d75c","index.cover.png?v=solitaire-b0cffe299843d75c","index.manifest.json?v=solitaire-b0cffe299843d75c","index.wasm","index.pck"];
+const CACHED_FILES = ["index.html","index.js","index.offline.html","index.audio.worklet.js","index.audio.position.worklet.js","index.icon.png?v=solitaire-05892cccf15dea4a","index.144x144.png?v=solitaire-05892cccf15dea4a","index.180x180.png?v=solitaire-05892cccf15dea4a","index.192x192.png?v=solitaire-05892cccf15dea4a","index.512x512.png?v=solitaire-05892cccf15dea4a","index.maskable-512x512.png?v=solitaire-05892cccf15dea4a","index.apple-touch-icon.png?v=solitaire-05892cccf15dea4a","favicon-16x16.png?v=solitaire-05892cccf15dea4a","favicon-32x32.png?v=solitaire-05892cccf15dea4a","favicon-48x48.png?v=solitaire-05892cccf15dea4a","favicon.ico?v=solitaire-05892cccf15dea4a","index.cover.png?v=solitaire-05892cccf15dea4a","index.manifest.json?v=solitaire-05892cccf15dea4a","index.wasm","index.pck"];
 // Files that we might not want the user to preload, and will only be cached on first load.
 /** @type {string[]} */
 const CACHEABLE_FILES = ["index.wasm","index.pck"];
