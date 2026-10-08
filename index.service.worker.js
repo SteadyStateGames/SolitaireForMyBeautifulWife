@@ -4,7 +4,7 @@
 // Incrementing CACHE_VERSION will kick off the install event and force
 // previously cached resources to be updated from the network.
 /** @type {string} */
-const CACHE_VERSION = 'solitaire-5fd432ae3bc42648';
+const CACHE_VERSION = 'solitaire-7eb9826c9012d40b';
 /** @type {string} */
 const CACHE_PREFIX = 'Spider Solitaire-sw-cache-';
 const CACHE_NAME = CACHE_PREFIX + CACHE_VERSION;
@@ -14,14 +14,14 @@ const OFFLINE_URL = 'index.offline.html';
 const ENSURE_CROSSORIGIN_ISOLATION_HEADERS = false;
 // Files that will be cached on load.
 /** @type {string[]} */
-const CACHED_FILES = ["index.html","index.js","index.offline.html","index.audio.worklet.js","index.audio.position.worklet.js","index.icon.png?v=solitaire-5fd432ae3bc42648","index.144x144.png?v=solitaire-5fd432ae3bc42648","index.180x180.png?v=solitaire-5fd432ae3bc42648","index.192x192.png?v=solitaire-5fd432ae3bc42648","index.512x512.png?v=solitaire-5fd432ae3bc42648","index.maskable-512x512.png?v=solitaire-5fd432ae3bc42648","index.apple-touch-icon.png?v=solitaire-5fd432ae3bc42648","favicon-16x16.png?v=solitaire-5fd432ae3bc42648","favicon-32x32.png?v=solitaire-5fd432ae3bc42648","favicon-48x48.png?v=solitaire-5fd432ae3bc42648","favicon.ico?v=solitaire-5fd432ae3bc42648","index.cover.png?v=solitaire-5fd432ae3bc42648","index.manifest.json?v=solitaire-5fd432ae3bc42648"];
+const CACHED_FILES = ["index.html","index.js","index.offline.html","index.audio.worklet.js","index.audio.position.worklet.js","index.icon.png?v=solitaire-7eb9826c9012d40b","index.144x144.png?v=solitaire-7eb9826c9012d40b","index.180x180.png?v=solitaire-7eb9826c9012d40b","index.192x192.png?v=solitaire-7eb9826c9012d40b","index.512x512.png?v=solitaire-7eb9826c9012d40b","index.maskable-512x512.png?v=solitaire-7eb9826c9012d40b","index.apple-touch-icon.png?v=solitaire-7eb9826c9012d40b","favicon-16x16.png?v=solitaire-7eb9826c9012d40b","favicon-32x32.png?v=solitaire-7eb9826c9012d40b","favicon-48x48.png?v=solitaire-7eb9826c9012d40b","favicon.ico?v=solitaire-7eb9826c9012d40b","index.cover.png?v=solitaire-7eb9826c9012d40b","index.manifest.json?v=solitaire-7eb9826c9012d40b","index.wasm","index.pck"];
 // Files that we might not want the user to preload, and will only be cached on first load.
 /** @type {string[]} */
 const CACHEABLE_FILES = ["index.wasm","index.pck"];
 const FULL_CACHE = CACHED_FILES.concat(CACHEABLE_FILES);
 
 self.addEventListener('install', (event) => {
-	event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CACHED_FILES)));
+	event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(CACHED_FILES.map(name => new Request(new URL(name, self.location.href), { cache: 'reload' })))));
 });
 
 self.addEventListener('activate', (event) => {
@@ -33,7 +33,7 @@ self.addEventListener('activate', (event) => {
 	).then(function () {
 		// Enable navigation preload if available.
 		return ('navigationPreload' in self.registration) ? self.registration.navigationPreload.enable() : Promise.resolve();
-	}));
+	}).then(() => self.clients.claim()));
 });
 
 /**
@@ -120,6 +120,15 @@ self.addEventListener(
 							return caches.match(OFFLINE_URL);
 						}
 					}
+				}
+				// The manifest starts at ./, while the precached document is index.html.
+				// Resolve that navigation alias before attempting an offline fetch.
+				const target = new URL(event.request.url);
+				const scope = new URL('./', self.location.href);
+				if (isNavigate && target.origin === scope.origin &&
+					(target.pathname === scope.pathname || target.pathname === scope.pathname + 'index.html')) {
+					const document = await cache.match('index.html');
+					if (document) return ENSURE_CROSSORIGIN_ISOLATION_HEADERS ? ensureCrossOriginIsolationHeaders(document) : document;
 				}
 				let cached = await cache.match(event.request);
 				if (cached != null) {
